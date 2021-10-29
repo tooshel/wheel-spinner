@@ -21,6 +21,13 @@ const {GenerateSW} = require('workbox-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 module.exports = {
+  devServer: {
+    static: {
+      directory: path.join(__dirname, '../dist'),
+    },
+    compress: true,
+    port: 9000,
+  },
   devtool: 'source-map',
   entry: {
     polyfill: '@babel/polyfill',
@@ -31,7 +38,7 @@ module.exports = {
     admin: './static/admin/index.js',
   },
   output: {
-    filename: '[name]-[contenthash].js',
+    filename: '[name]-[hash].js',
     path: path.resolve(__dirname, '../dist'),
     publicPath: '/'
   },
@@ -149,16 +156,16 @@ module.exports = {
       { from: './static/images/favicon.ico', to: '.' },
       { from: './static/404.html', to: '.' },
     ]}),
-    new GenerateSW({
-      exclude: [
-        /\.map$/, /\.png$/, /\.mp3$/, /\.xml$/, /\.ico$/,
-        /faq/, /privacy/, /translate/, /404/, /vendors~/, /^locale/,
-        /admin/, /view/, /index/, /polyfill/, /precache/, /vendor/
-      ],
-      skipWaiting: true,
-      clientsClaim: true,
-      cleanupOutdatedCaches: true
-    }),
+    // new GenerateSW({
+    //   exclude: [
+    //     /\.map$/, /\.png$/, /\.mp3$/, /\.xml$/, /\.ico$/,
+    //     /faq/, /privacy/, /translate/, /404/, /vendors~/, /^locale/,
+    //     /admin/, /view/, /index/, /polyfill/, /precache/, /vendor/
+    //   ],
+    //   skipWaiting: true,
+    //   clientsClaim: true,
+    //   cleanupOutdatedCaches: true
+    // }),
     new VueLoaderPlugin(),
   ],
 }
